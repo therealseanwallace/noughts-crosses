@@ -34,7 +34,7 @@ const game = (() => {
     } else if (lineArray.includes(12)) {
       winner = 4;
     }
-     (winner);
+    return (winner);
   };
 
   return {
