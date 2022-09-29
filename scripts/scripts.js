@@ -1,31 +1,42 @@
 console.log('hello world!');
+
 // Game module //
+
 const game = (() => {
-  let gameArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const gameArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   const receiveInput = (player, square) => {
     if (gameArray[square] === 0) {
       gameArray[square] = player;
       return (true);
-    } else {
-      return (false);
     }
+    return (false);
   };
-  
-  const checkWinner = () => {
-    const horiz0 = array[0] + array[1] + array[2];
-    const horiz1 = array[3] + array[4] + array[5];
-    const horiz2 = array[6] + array[7] + array[8];
-    const vert0 = array[0] + array[3] + array[6];
-    const vert1 = array[1] + array[4] + array[7];
-    const vert2 = array[2] + array[5] + array[8];
-    const diag0 = array[0] + array[4] + array[8];
-    const diag1 = array[6] + array[4] + array[2];
 
-    switch(3) {
-      case ()
+  const checkWinner = () => {
+    const lineValues = {
+      horiz0: gameArray[0] + gameArray[1] + gameArray[2],
+      horiz1: gameArray[3] + gameArray[4] + gameArray[5],
+      horiz2: gameArray[6] + gameArray[7] + gameArray[8],
+      vert0: gameArray[0] + gameArray[3] + gameArray[6],
+      vert1: gameArray[1] + gameArray[4] + gameArray[7],
+      vert2: gameArray[2] + gameArray[5] + gameArray[8],
+      diag0: gameArray[0] + gameArray[4] + gameArray[8],
+      diag1: gameArray[6] + gameArray[4] + gameArray[2],
+    };
+
+    // eslint-disable-next-line arrow-body-style
+    const lineArray = Object.keys(lineValues).map((keys) => { return lineValues[keys]; });
+    let winner = 0;
+
+    if (lineArray.includes(3)) {
+      winner = 1;
+    } else if (lineArray.includes(12)) {
+      winner = 4;
     }
+     (winner);
   };
+
   return {
     receiveInput,
     checkWinner,
