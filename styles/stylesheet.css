@@ -10,7 +10,7 @@
 	margin-top: 20vh;
 }
   
-.square0 { grid-area: 1 / 1 / 4 / 4; }
+.square0 { grid-area: 1 / 1 / 2 / 2; }
 .square1 { grid-area: 1 / 2 / 2 / 3; }
 .square2 { grid-area: 1 / 3 / 2 / 4; }
 .square3 { grid-area: 2 / 1 / 3 / 2; }

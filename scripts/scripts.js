@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 console.log('hello world!');
 
@@ -43,7 +44,7 @@ const game = (() => {
     const lineArray = Object.keys(lineValues).map((keys) => { return lineValues[keys]; });
     let winner = 0;
 
-    if (lineArray.includes(3)) {
+    if (lineArray.includes(3)) { // If a line on the board contains 3 like symbols, declare winner
       winner = 1;
       console.log('Winner is Player One!');
     } else if (lineArray.includes(12)) {
@@ -54,9 +55,10 @@ const game = (() => {
   };
 
   const controlGame = (() => {
-    // If move valid, marks relevant array position with appropriate number & returns true
     let currentPlayer = false; // false is "Player one"/playerArray[0]
-    const processInput = (square) => {
+    const idCurrentPlayer = () => (currentPlayer); // Return the current player 
+    // eslint-disable-next-line max-len
+    const processInput = (square) => { // If move valid, marks relevant array position with appropriate number & returns true
       if (gameArray[square] === 0 && currentPlayer === false) {
         gameArray[square] = 1;
         currentPlayer = !currentPlayer;
@@ -74,12 +76,13 @@ const game = (() => {
       return (false);
     };
 
-    const getInput = (e) => {
-      processInput(e.target.id);
-      console.log("Receive input", e, "Sending input to handler");
+    const inputOutput = (id) => {
+      const result = processInput(id);
+      return (result);
     };
     return {
-      getInput,
+      inputOutput,
+      idCurrentPlayer,
     };
   })();
 
@@ -91,12 +94,40 @@ const game = (() => {
 })();
 
 const display = (() => {
+  const updateDisplay = (squareId) => {
+    const player = game.controlGame.idCurrentPlayer();
+    const selectSquare = document.querySelector(`.square${squareId}`);
+    if (player === true) {
+      const nought = document.createElement('img');
+      nought.setAttribute('src', 'resources/nought.svg');
+      selectSquare.append(nought);
+      console.log(selectSquare);
+      return ("Display updated with player one's mark");
+    }
+    const cross = document.createElement('img');
+    cross.setAttribute('src', 'resources/cross.svg');
+    selectSquare.append(cross);
+    console.log(selectSquare);
+    return ("Display updated with player two's mark");
+  };
+
+  const getInput = (e) => {
+    // eslint-disable-next-line prefer-destructuring
+    const squareId = e.target.id;
+    const result = game.controlGame.inputOutput(squareId);
+    if (result === true) {
+      const displayUpdate = updateDisplay(squareId);
+      console.log(displayUpdate);
+    }
+    console.log(result);
+  };
+
   const createDisplay = () => {
     function makeSquare(i) {
       const gameContainer = document.querySelector('.game-container');
       const square = document.createElement('div');
-      square.addEventListener('click', game.controlGame.getInput);
-      square.classList.add('square');
+      square.addEventListener('click', getInput);
+      square.classList.add('square', `square${i}`);
       square.setAttribute('id', i);
       gameContainer.append(square);
     }
