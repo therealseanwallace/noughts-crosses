@@ -58,7 +58,8 @@ const game = (() => {
       // eslint-disable-next-line no-use-before-define
       display.winnerDeclared(playerArray[1].name);
     } else if (winner === 0) {
-      alert('Game is a draw!');
+      // eslint-disable-next-line no-use-before-define
+      display.winnerDeclared(false);
     }
     return (winner);
   };
@@ -184,7 +185,11 @@ const display = (() => {
     selectSquares.forEach((square) => square.removeEventListener('click', getInput));
     const selectModalContent = document.querySelector('.modal-content');
     const newH2 = document.createElement('h2');
-    newH2.textContent = `${winner} is the winner!`;
+    if (winner !== false) {
+      newH2.textContent = `Congratulations! ${winner} is the winner!`;
+    } else {
+      newH2.textContent = 'This round is a draw.';
+    }
     selectModalContent.append(newH2);
     selectModalContent.append(resetButton);
     modal.classList.toggle('show-modal');
