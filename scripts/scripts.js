@@ -6,13 +6,8 @@ console.log('hello world!');
 const game = (() => {
   const gameArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   const playerArray = [{}, {}];
-  const playerFactory = (name, id) => {
-    const getInput = (e) => {
-      console.log("I got input!", e.target.getAttribute('id'));
-      return (e.target.getAttribute('id'));
-    };
-    return { name, id, getInput };
-  };
+
+  const playerFactory = (name, id) => ({ name, id });
 
   const spawnPlayers = (() => {
     for (let i = 0; i < 2; i += 1) {
@@ -24,21 +19,12 @@ const game = (() => {
         playerArray[0] = playerFactory(playerName, playerId);
       } else {
         playerId = 4;
-        playerName = 'Playe Two';
+        playerName = 'Player Two';
         playerArray[1] = playerFactory(playerName, playerId);
       }
     }
     console.log(playerArray);
   })();
-
-  // If move is valid, marks the relevant array position with the appropriate number & returns true
-  const receiveInput = (player, square) => {
-    if (gameArray[square] === 0) {
-      gameArray[square] = player;
-      return (true);
-    }
-    return (false);
-  };
 
   // Checks to see if a player has won. If so, returns the number of that player
   const checkWinner = () => {
@@ -59,16 +45,48 @@ const game = (() => {
 
     if (lineArray.includes(3)) {
       winner = 1;
+      console.log('Winner is Player One!');
     } else if (lineArray.includes(12)) {
       winner = 4;
+      console.log('Winner is Player Two!');
     }
     return (winner);
   };
 
+  const controlGame = (() => {
+    // If move valid, marks relevant array position with appropriate number & returns true
+    let currentPlayer = false; // false is "Player one"/playerArray[0]
+    const processInput = (square) => {
+      if (gameArray[square] === 0 && currentPlayer === false) {
+        gameArray[square] = 1;
+        currentPlayer = !currentPlayer;
+        console.log("gameArray[square] = ", gameArray[square]);
+        checkWinner();
+        return (true);
+      } if (gameArray[square] === 0 && currentPlayer === true) {
+        gameArray[square] = 4;
+        currentPlayer = !currentPlayer;
+        console.log("gameArray[square] = ", gameArray[square]);
+        checkWinner();
+        return (true);
+      }
+      console.log('This square is taken. Please try again')
+      return (false);
+    };
+
+    const getInput = (e) => {
+      processInput(e.target.id);
+      console.log("Receive input", e, "Sending input to handler");
+    };
+    return {
+      getInput,
+    };
+  })();
+
   return {
-    receiveInput,
     checkWinner,
     playerArray,
+    controlGame,
   };
 })();
 
@@ -77,15 +95,14 @@ const display = (() => {
     function makeSquare(i) {
       const gameContainer = document.querySelector('.game-container');
       const square = document.createElement('div');
-      square.addEventListener('click', game.playerArray[0].getInput);
+      square.addEventListener('click', game.controlGame.getInput);
       square.classList.add('square');
-      square.setAttribute('id', `square${i}`);
+      square.setAttribute('id', i);
       gameContainer.append(square);
     }
-    for (let i = 0; i < 9 ; i += 1) {
+    for (let i = 0; i < 9; i += 1) {
       makeSquare(i);
     }
   };
-
   createDisplay();
 })();
