@@ -1,9 +1,35 @@
+/* eslint-disable no-unused-vars */
 console.log('hello world!');
 
 // Game module //
 
 const game = (() => {
   const gameArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const playerArray = [{}, {}];
+  const playerFactory = (name, id) => {
+    const getInput = (e) => {
+      console.log("I got input!", e.target.getAttribute('id'));
+      return (e.target.getAttribute('id'));
+    };
+    return { name, id, getInput };
+  };
+
+  const spawnPlayers = (() => {
+    for (let i = 0; i < 2; i += 1) {
+      let playerId = 0;
+      let playerName = '';
+      if (i === 0) {
+        playerId = 1;
+        playerName = 'Player One';
+        playerArray[0] = playerFactory(playerName, playerId);
+      } else {
+        playerId = 4;
+        playerName = 'Playe Two';
+        playerArray[1] = playerFactory(playerName, playerId);
+      }
+    }
+    console.log(playerArray);
+  })();
 
   // If move is valid, marks the relevant array position with the appropriate number & returns true
   const receiveInput = (player, square) => {
@@ -42,6 +68,7 @@ const game = (() => {
   return {
     receiveInput,
     checkWinner,
+    playerArray,
   };
 })();
 
@@ -50,7 +77,7 @@ const display = (() => {
     function makeSquare(i) {
       const gameContainer = document.querySelector('.game-container');
       const square = document.createElement('div');
-      square.addEventListener('click', input.getInput);
+      square.addEventListener('click', game.playerArray[0].getInput);
       square.classList.add('square');
       square.setAttribute('id', `square${i}`);
       gameContainer.append(square);
@@ -61,10 +88,4 @@ const display = (() => {
   };
 
   createDisplay();
-})();
-
-const input = (() => {
-  function getInput(e) {
-    return (e.target.getAttribute('id'));
-  }
 })();
