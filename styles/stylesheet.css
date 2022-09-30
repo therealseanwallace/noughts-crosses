@@ -38,7 +38,37 @@ p, h1, h2, h3, h4, h5, h6 {
 
 /* STYLES */
 
+* {
+  font-family: Merriweather, serif;
+}
+
+header {
+  margin-top: 50px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+.button {
+  background-color:darkslategray;
+  color: whitesmoke;
+  padding: 10px 30px 10px 30px;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
+
+.button:hover {
+  background-color: black;
+}
 .game-container {
+  text-align: center;
+}
+
+.game-grid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	grid-template-rows: repeat(3, 1fr);
@@ -47,7 +77,6 @@ p, h1, h2, h3, h4, h5, h6 {
 	height: 700px;
 	width: 700px;
 	margin: auto;
-	margin-top: 20vh;
 }
 
 .square {
@@ -115,7 +144,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .modal-content {
 	position: absolute;
-	top: 40vh;
+	margin-top: 564px;
 	left: 50vw;
 	transform: translate(-50%, -50%);
 	background-color: whitesmoke;
@@ -126,10 +155,12 @@ p, h1, h2, h3, h4, h5, h6 {
 	flex-direction: column;
 	align-items: center;
 	height: 500px;
+  padding-top: 150px;
 }
 
 .modal-content > h2 {
   margin-bottom: 14px;
+  font-size: 2rem;
 }
 
 .modal-close-button {

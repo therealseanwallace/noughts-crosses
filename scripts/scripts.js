@@ -134,7 +134,7 @@ const display = (() => {
     }
     console.log(result);
   };
-  
+
   const toggleModal = () => {
     modal.classList.toggle('show-modal');
   };
@@ -145,9 +145,24 @@ const display = (() => {
     }
   };
 
+  const resetGame = () => {
+    location.reload();
+  };
+
+  const resetButton = document.createElement('input');
+  resetButton.setAttribute('type', 'button');
+  resetButton.setAttribute('value', 'Reset game');
+  resetButton.classList.add('button');
+  resetButton.addEventListener('click', resetGame);
+  const resetButton2 = document.createElement('input');
+  resetButton2.setAttribute('type', 'button');
+  resetButton2.setAttribute('value', 'Reset game');
+  resetButton2.classList.add('button');
+  resetButton2.addEventListener('click', resetGame);
+
   const createDisplay = () => { // Creates game board divs and adds event listeners
     function makeSquare(i) {
-      const gameContainer = document.querySelector('.game-container');
+      const gameGrid = document.querySelector('.game-grid');
       const modalCloseButton = document.querySelector('.modal-close-button');
       const square = document.createElement('div');
       square.addEventListener('click', getInput);
@@ -155,26 +170,24 @@ const display = (() => {
       modalCloseButton.addEventListener('click', toggleModal);
       square.classList.add('square', `square${i}`);
       square.setAttribute('id', i);
-      gameContainer.append(square);
+      gameGrid.append(square);
     }
     for (let i = 0; i < 9; i += 1) {
       makeSquare(i);
     }
+    const gameContainer = document.querySelector('.game-container');
+    gameContainer.prepend(resetButton2);
   };
 
   const winnerDeclared = (winner) => {
-    console.log("Winner declared!");
     const selectSquares = document.querySelectorAll('.square');
     selectSquares.forEach((square) => square.removeEventListener('click', getInput));
     const selectModalContent = document.querySelector('.modal-content');
     const newH2 = document.createElement('h2');
     newH2.textContent = `${winner} is the winner!`;
     selectModalContent.append(newH2);
+    selectModalContent.append(resetButton);
     modal.classList.toggle('show-modal');
-  };
-
-  const resetGame = () => {
-    location.reload();
   };
 
   createDisplay();
