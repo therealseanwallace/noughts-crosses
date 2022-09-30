@@ -5,6 +5,7 @@ console.log('hello world!');
 const game = (() => {
   const gameArray = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
+  // If move is valid, marks the relevant array position with the appropriate number & returns true
   const receiveInput = (player, square) => {
     if (gameArray[square] === 0) {
       gameArray[square] = player;
@@ -13,6 +14,7 @@ const game = (() => {
     return (false);
   };
 
+  // Checks to see if a player has won. If so, returns the number of that player
   const checkWinner = () => {
     const lineValues = {
       horiz0: gameArray[0] + gameArray[1] + gameArray[2],
@@ -41,4 +43,28 @@ const game = (() => {
     receiveInput,
     checkWinner,
   };
+})();
+
+const display = (() => {
+  const createDisplay = () => {
+    function makeSquare(i) {
+      const gameContainer = document.querySelector('.game-container');
+      const square = document.createElement('div');
+      square.addEventListener('click', input.getInput);
+      square.classList.add('square');
+      square.setAttribute('id', `square${i}`);
+      gameContainer.append(square);
+    }
+    for (let i = 0; i < 9 ; i += 1) {
+      makeSquare(i);
+    }
+  };
+
+  createDisplay();
+})();
+
+const input = (() => {
+  function getInput(e) {
+    return (e.target.getAttribute('id'));
+  }
 })();
