@@ -40,23 +40,23 @@ const game = (() => {
       diag1: gameArray[6] + gameArray[4] + gameArray[2],
     };
 
-    // eslint-disable-next-line arrow-body-style
-    const lineArray = Object.keys(lineValues).map((keys) => { return lineValues[keys]; });
+    // Map the values of the above object to an array
+    const lineArray = Object.keys(lineValues).map((keys) => lineValues[keys]);
     let winner = 0;
 
     if (lineArray.includes(3)) { // If a line on the board contains 3 like symbols, declare winner
       winner = 1;
-      console.log('Winner is Player One!');
+      alert('Winner is Player One!');
     } else if (lineArray.includes(12)) {
       winner = 4;
-      console.log('Winner is Player Two!');
+      alert('Winner is Player Two!');
     }
     return (winner);
   };
 
   const controlGame = (() => {
     let currentPlayer = false; // false is "Player one"/playerArray[0]
-    const idCurrentPlayer = () => (currentPlayer); // Return the current player 
+    const idLastPlayer = () => (currentPlayer); // Return the current player 
     // eslint-disable-next-line max-len
     const processInput = (square) => { // If move valid, marks relevant array position with appropriate number & returns true
       if (gameArray[square] === 0 && currentPlayer === false) {
@@ -72,17 +72,17 @@ const game = (() => {
         checkWinner();
         return (true);
       }
-      console.log('This square is taken. Please try again')
+      alert('This square is taken. Please try again');
       return (false);
     };
 
-    const inputOutput = (id) => {
-      const result = processInput(id);
-      return (result);
+    const inputOutput = (id) => { 
+      const result = processInput(id); // Passes the ID of a clicked div to be processed
+      return (result); // Returns turn result to display function to update display as appropriate
     };
     return {
       inputOutput,
-      idCurrentPlayer,
+      idLastPlayer,
     };
   })();
 
@@ -93,9 +93,10 @@ const game = (() => {
   };
 })();
 
+// Display and input
 const display = (() => {
   const updateDisplay = (squareId) => {
-    const player = game.controlGame.idCurrentPlayer();
+    const player = game.controlGame.idLastPlayer(); // Gets the ID of the player who LAST played
     const selectSquare = document.querySelector(`.square${squareId}`);
     if (player === true) {
       const nought = document.createElement('img');
@@ -111,6 +112,7 @@ const display = (() => {
     return ("Display updated with player two's mark");
   };
 
+  // Takes an on-click event and passes div's ID to game control for processing
   const getInput = (e) => {
     // eslint-disable-next-line prefer-destructuring
     const squareId = e.target.id;
@@ -122,7 +124,7 @@ const display = (() => {
     console.log(result);
   };
 
-  const createDisplay = () => {
+  const createDisplay = () => { // Creates game board divs and adds event listeners
     function makeSquare(i) {
       const gameContainer = document.querySelector('.game-container');
       const square = document.createElement('div');
@@ -135,5 +137,21 @@ const display = (() => {
       makeSquare(i);
     }
   };
+
+  const removeListeners = () => {
+    const selectSquares = document.querySelectorAll('.square');
+    selectSquares.forEach((square) => square.removeEventListener('click', getInput));
+    console.log(selectSquares);
+  };
+
+  const resetGame = () => {
+    location.reload();
+  };
+
   createDisplay();
+
+  return {
+    removeListeners,
+    resetGame,
+  };
 })();
