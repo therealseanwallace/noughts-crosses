@@ -58,12 +58,21 @@ header {
   outline: none;
   border: none;
   font-weight: bold;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
+  width: 300px;
 }
 
+.reset-button {
+  background-color:firebrick;
+}
 .button:hover {
   background-color: black;
 }
+
+.hidden {
+  visibility: hidden;
+}
+
 .game-container {
   text-align: center;
 }
@@ -79,6 +88,9 @@ header {
 	margin: auto;
 }
 
+form {
+  margin-bottom: 20px;;
+}
 .square {
   border: 0;
   border-style: solid;
@@ -184,8 +196,4 @@ header {
   visibility: visible;
   transform: scale(1.0);
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
-}
-
-.submit-button {
-  margin-bottom: 32px;
 }
